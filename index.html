@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mujhe kya bolna hai</title>
+<style>
+:root{--bg:#f4efe9;--pn:#fffaf4;--tx:#2a160c;--mu:#7a5a46;--cu:#c25e1e;--cu2:#f08a3c;--so:#7d848e;--ln:#d9c5b4;--ink:#1a0f0a;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a0f0a;--pn:#2d1a10;--tx:#f3eee8;--mu:#b9a799;--cu:#e8803a;--cu2:#ffb267;--so:#c0c4cb;--ln:#5a3520}}
+:root[data-theme="dark"]{--bg:#1a0f0a;--pn:#2d1a10;--tx:#f3eee8;--mu:#b9a799;--cu:#e8803a;--cu2:#ffb267;--so:#c0c4cb;--ln:#5a3520}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font:17px/1.5 Calibri,"Segoe UI",system-ui,sans-serif;overflow-x:hidden}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+#glow{position:fixed;inset:-10%;z-index:0;pointer-events:none;background:radial-gradient(38% 38% at var(--mx,50%) var(--my,35%),color-mix(in srgb,var(--cu) 26%,transparent),transparent 70%),radial-gradient(50% 50% at 90% 95%,color-mix(in srgb,var(--so) 14%,transparent),transparent 70%);animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(2%,-3%) scale(1.06)}}
+#wipe{position:fixed;inset:0;z-index:20;pointer-events:none;transform:translateX(-105%);background:linear-gradient(100deg,var(--cu) 0,var(--cu) 70%,var(--cu2) 94%,transparent)}
+#app{position:relative;z-index:2;max-width:980px;min-height:100%;margin:0 auto;padding:22px 22px 26px;display:flex;flex-direction:column;box-sizing:border-box}
+#top{display:flex;align-items:center;gap:14px}
+#track{flex:1;height:4px;background:color-mix(in srgb,var(--cu) 22%,transparent);border-radius:9px;overflow:hidden}
+#bar{height:100%;width:0;background:linear-gradient(90deg,var(--cu),var(--cu2));border-radius:9px;box-shadow:0 0 14px var(--cu2);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+#stage{flex:1;display:flex;flex-direction:column;justify-content:center;padding:26px 0}
+h1{font:700 clamp(1.7rem,4.2vw,2.8rem)/1.2 Georgia,"Times New Roman",serif;margin:0 0 6px;perspective:700px}
+h1.big{text-align:center;font-size:clamp(2.1rem,6vw,3.8rem);margin-bottom:34px}
+.w{display:inline-block;white-space:nowrap}
+.ch{display:inline-block;animation:ch .7s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i)*var(--s,26ms) + 450ms)}
+@keyframes ch{from{opacity:0;transform:translateY(.7em) rotateX(-70deg);filter:blur(7px)}}
+.sub{margin:0 0 22px;color:var(--so);font-style:italic;animation:rise .8s backwards .5s}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.cell{--d:0ms;cursor:pointer;outline:0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.28));transform:perspective(800px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:translate .25s,scale .25s,filter .25s;animation:rise .75s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d)}
+.cell:hover,.cell:focus-visible{translate:0 -5px;scale:1.02;filter:drop-shadow(0 14px 22px color-mix(in srgb,var(--cu) 45%,transparent))}
+.cell:active{scale:.98}
+.opt{display:block;padding:1.5px;background:linear-gradient(135deg,var(--cu2),var(--cu) 45%,var(--so));clip-path:polygon(0 0,calc(100% - 20px) 0,100% 20px,100% 100%,20px 100%,0 calc(100% - 20px))}
+.in{position:relative;overflow:hidden;display:flex;align-items:center;gap:15px;min-height:86px;padding:16px 20px 16px 16px;background:var(--pn);clip-path:polygon(0 0,calc(100% - 19px) 0,100% 19px,100% 100%,19px 100%,0 calc(100% - 19px))}
+.in::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.22) 50%,transparent 60%);transform:translateX(-130%);transition:transform .8s}
+.cell:hover .in::after{transform:translateX(130%)}
+.n{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.1rem;color:var(--ink);background:radial-gradient(circle at 30% 25%,var(--cu2),var(--cu) 72%)}
+.cell:hover .n{animation:ring 1s infinite}
+@keyframes ring{from{box-shadow:0 0 0 0 var(--cu2)}to{box-shadow:0 0 0 14px transparent}}
+.ar{margin-left:auto;font-size:1.9rem;line-height:1;color:var(--so);font-style:normal;transition:transform .25s,color .25s}
+.cell:hover .ar{transform:translateX(7px);color:var(--cu2)}
+.row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.nav{display:flex;justify-content:flex-end;margin-top:24px}
+.nav.l{justify-content:flex-start}
+.pill{--d:0ms;font:700 1.1rem Calibri,"Segoe UI",system-ui,sans-serif;color:var(--ink);cursor:pointer;border:0;border-radius:99px;padding:15px 34px;background:linear-gradient(180deg,var(--cu2),var(--cu));box-shadow:0 10px 24px -8px var(--cu);transition:translate .2s,box-shadow .2s,scale .2s;animation:rise .75s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d)}
+.pill:hover{translate:0 -3px;box-shadow:0 16px 30px -8px var(--cu2)}
+.pill:active{scale:.96}
+.pill.ghost{background:transparent;color:var(--tx);box-shadow:inset 0 0 0 1.5px var(--so)}
+.pill.sm{padding:10px 22px;font-size:1rem}
+.lines{max-width:760px}
+.lines p{position:relative;margin:0 0 14px;padding:6px 0 6px 24px;font-size:clamp(1.05rem,2.2vw,1.35rem);animation:line .95s ease backwards;animation-delay:var(--d)}
+.lines p::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:4px;background:linear-gradient(var(--cu2),var(--cu));transform-origin:top;animation:grow .7s ease backwards;animation-delay:var(--d)}
+@keyframes line{from{opacity:0;filter:blur(9px);transform:translateX(-22px)}}
+@keyframes grow{from{transform:scaleY(0)}}
+.reply{--d:0ms;max-width:640px;margin:26px auto 0;width:100%;animation:rise .8s backwards;animation-delay:var(--d)}
+.reply textarea,.in textarea{width:100%;box-sizing:border-box;min-height:82px;resize:vertical;font:inherit;color:var(--tx);background:var(--pn);border:1.5px solid var(--ln);border-radius:12px;padding:12px 14px;outline:0}
+.reply textarea:focus,.in textarea:focus{border-color:var(--cu2);box-shadow:0 0 0 4px color-mix(in srgb,var(--cu) 25%,transparent)}
+.in textarea{min-height:60px;flex:1}
+.note{min-height:1.4em;text-align:center;color:var(--so);margin:12px 0 0}
+.lnk{background:none;border:0;color:var(--so);font:inherit;font-size:.95rem;cursor:pointer;padding:8px 4px}
+.lnk:hover{color:var(--cu2)}
+#foot{display:flex;gap:14px;min-height:34px}
+#resp{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);z-index:30;box-sizing:border-box;background:var(--pn);border-left:1px solid var(--ln);padding:calc(18px + env(safe-area-inset-top,0px)) 18px 18px;overflow:auto;transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+#resp.open{transform:none}
+#resp h2{font:700 1.3rem Georgia,serif;margin:0 0 12px}
+#resp .r{border:1px solid var(--ln);border-radius:12px;padding:10px 12px;margin:0 0 10px;font-size:.92rem;white-space:pre-wrap}
+#resp small{color:var(--so)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style></head>
+<body>
+<div id="glow"></div><canvas id="fx"></canvas><div id="wipe"></div>
+<div id="app">
+ <div id="top"><div id="track"><div id="bar"></div></div><button class="lnk" id="ob" hidden></button></div>
+ <main id="stage"></main>
+ <div id="foot"><button class="lnk" id="bk" hidden>←  Back</button><button class="lnk" id="rs" hidden>↺  Restart</button></div>
+</div>
+<aside id="resp"><button class="lnk" id="rc">Close ✕</button><h2>Responses</h2><div id="rl"></div></aside>
+<script>
+const CONTACT={wa:"",mail:""};
+const SAY=["Remember: avoid karne se kabhi koi cheez khatam nahi hoti.","I like you — iska matlab ye nahi, mai friend banke nahi rah sakta, ye sab.","Is liye — because I don’t know what is in your mind. And mai itni overthinking kar chuka hu ki nahi pata kya reality hai kya fake."];
+const WH="What did hurt you this much?",STB="Write what you want to say here.";
+const N={
+start:{k:"big",t:"Friends like before?",o:[["Yes","yes"],["No  →","hurt1"]]},
+hurt1:{k:"opt",t:WH,s:"Options 1–4 of 7",n:1,o:[["Nahi pata (matlab nahi batana)","what1"],["Behaviour","what1"],["Saath hote bhi dusro ki baat karta tha","what1"],["Kabhi tum pe dhyan nahi diya (kitne hint diye, par kabhi kuch notice nahi kiya)","what1"]],m:["More options  →","hurt2"]},
+hurt2:{k:"opt",t:WH,s:"Options 5–7 of 7",n:5,o:[["The thing about other college (mujhe bhi baat nahi karna uspe)","college"],["Ek baar nahi, kai baar hurt kiye","what1"],["Write your own…","what1",1]],m:["←  Previous options","hurt1",1]},
+college:{k:"msg",t:"The thing about the other college",l:[STB],x:["Next  →","what1"]},
+what1:{k:"opt",t:"What??",s:"Options 1–4 of 6",n:1,o:[["Chahti ho ki mai attach na ho jau to na chahte hue bhi ignore karna pad raha hai","say"],["I like you but pata hai future nahi hai to attach nahi hona chahti","say"],["Doesn’t like you but want to be a friend with you (not like before)","say"],["Don’t want to be friend with you (chahti thi par maine hi kharab kar diya)","stub"]],m:["More options  →","what2"]},
+what2:{k:"opt",t:"What??",s:"Options 5–6 of 6",n:5,o:[["Hate you","stub"],["Write your own…","say",1]],m:["←  Previous options","what1",1]},
+stub:{k:"msg",t:"Slide 5",l:[STB],x:["Next  →","say"]},
+say:{k:"msg",t:"Mujhe kya bolna hai.....",l:SAY,x:["Next  →","decide"]},
+decide:{k:"big",t:"Kya mera ye batana “I like you” was a good decision or a bad decision??",o:[["Good decision","request"],["Bad decision","request"]]},
+request:{k:"msg",t:"Ek request (if possible)",l:["Mujhe ye puri situation tumhare perspective se dekhni hai.","Samjhna hai kya hua, kis cheez se gujri thi aap (how sad was it?).","Sab janna hai kya kya bolna tha but kabhi nahi bola."],x:["Next  →","express"]},
+express:{k:"msg",t:"Want to express yourself?",l:["Say anything you feel, in your own words. This space is yours."],rep:1,ph:"Write whatever you feel…"},
+yes:{k:"big",t:"Okay. Friends like before.",rep:1}};
+const ORDER=Object.keys(N),$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches,S=$("#stage"),WP=$("#wipe");
+let cur=null,hist=[],ans=[],reply="",busy=false,db=null,ref=null,rec=null,chain=Promise.resolve(),rows=[];
+const nid=()=>Math.random().toString(36).slice(2,10);let sid=nid();
+const split=(t,s)=>{let i=0;return '<span style="--s:'+s+'ms">'+t.split(" ").map(w=>'<span class="w">'+[...w].map(c=>'<span class="ch" style="--i:'+(i++)+'">'+c+'</span>').join("")+"</span>").join(" ")+"</span>"};
+const cell=(o,i,num,base)=>'<div class="cell" role="button" tabindex="0" data-to="'+o[1]+'" data-l="'+o[0]+'"'+(o[2]?' data-own="1"':"")+' data-num="'+num+'" style="--d:'+(base+i*110)+'ms"><span class="opt"><span class="in"><b class="n">'+num+'</b><span>'+o[0]+'</span><i class="ar">›</i></span></span></div>';
+function render(id){
+ const n=N[id],st=n.t.length>40?14:26,base=Math.min(450+n.t.length*st,1700)-250;let h='<h1 class="'+(n.k==="big"?"big":"")+'">'+split(n.t,st)+"</h1>";
+ if(n.s)h+='<p class="sub">'+n.s+"</p>";
+ if(n.k==="opt")h+='<div class="grid">'+n.o.map((o,i)=>cell(o,i,n.n+i,base)).join("")+"</div>";
+ if(n.k==="big"&&n.o)h+='<div class="row">'+n.o.map((o,i)=>'<button class="pill" data-to="'+o[1]+'" data-l="'+o[0]+'" style="--d:'+(base+i*130)+'ms">'+o[0]+"</button>").join("")+"</div>";
+ let after=base;
+ if(n.k==="msg"){h+='<div class="lines">'+n.l.map((l,i)=>'<p style="--d:'+(base+300+i*1000)+'ms">'+l+"</p>").join("")+"</div>";after=base+300+n.l.length*1000}
+ if(n.m)h+='<div class="nav'+(n.m[2]?" l":"")+'"><button class="pill'+(n.m[2]?" ghost":"")+'" data-nav="1" data-to="'+n.m[1]+'" style="--d:'+(base+700)+'ms">'+n.m[0]+"</button></div>";
+ if(n.x)h+='<div class="nav"><button class="pill" data-nav="1" data-to="'+n.x[1]+'" style="--d:'+after+'ms">'+n.x[0]+"</button></div>";
+ if(n.rep)h+='<div class="reply" style="--d:'+after+'ms"><textarea id="rt" style="min-height:'+(n.ph?150:82)+'px" placeholder="'+(n.ph||"Anything you want to tell me? (optional)")+'"></textarea><div class="row" style="margin-top:14px"><button class="pill" id="send">Send my answers</button></div><p class="note" id="note"></p></div>';
+ S.innerHTML=h;cur=id;
+ $("#bar").style.width=(ORDER.indexOf(id)+1)/ORDER.length*100+"%";
+ $("#bk").hidden=$("#rs").hidden=id==="start";
+}
+async function go(id,back){
+ if(busy)return;busy=true;const f=!back;
+ if(f&&cur)hist.push([cur,ans.length]);
+ if(RM){render(id)}else{
+  await WP.animate([{transform:"translateX("+(f?-105:105)+"%)"},{transform:"translateX(0)"}],{duration:430,easing:"cubic-bezier(.7,0,.3,1)",fill:"forwards"}).finished;
+  render(id);scrollTo(0,0);
+  await WP.animate([{transform:"translateX(0)"},{transform:"translateX("+(f?105:-105)+"%)"}],{duration:560,easing:"cubic-bezier(.7,0,.3,1)",fill:"forwards"}).finished}
+ busy=false}
+const back=()=>{if(!hist.length)return;const[p,len]=hist.pop();ans.length=len;go(p,true)};
+function restart(){hist=[];ans=[];reply="";sid=nid();rec=null;ref=db?db.doc("responses/"+sid):null;go("start",true)}
+function save(){if(!ref)return Promise.resolve(false);chain=chain.then(()=>ref.set({sid:sid,answers:ans,reply:reply,at:Date.now()})).then(()=>(rec=true),()=>(rec=false));return chain}
+const summary=()=>ans.map(a=>a.q+" → "+a.a).join("\n")+(reply?"\n\nReply: "+reply:"");
+async function send(){
+ reply=($("#rt").value||"").trim();const ok=await save(),txt=summary();let done=false;
+ try{if(navigator.share){await navigator.share({text:txt});done=true}}catch(e){}
+ if(!done&&!ok){try{await navigator.clipboard.writeText(txt);done="copied"}catch(e){}}
+ let m=ok?"Sent — thank you.":done==="copied"?"Copied. Please paste it in a message to send it.":done?"Thank you.":"Couldn’t send automatically. Please screenshot this page and share it.";
+ const nt=$("#note");nt.textContent=m;
+ const u=encodeURIComponent(txt);
+ if(CONTACT.wa)nt.insertAdjacentHTML("beforeend",' <a href="https://wa.me/'+CONTACT.wa+"?text="+u+'" target="_blank" rel="noopener">WhatsApp</a>');
+ if(CONTACT.mail)nt.insertAdjacentHTML("beforeend",' <a href="mailto:'+CONTACT.mail+"?subject=My%20answers&body="+u+'">Email</a>')}
+S.addEventListener("click",e=>{
+ if(e.target.id==="send"){send();return}
+ const b=e.target.closest("[data-to]");if(!b||busy)return;
+ if(b.dataset.own){const to=b.dataset.to;b.removeAttribute("data-to");b.removeAttribute("data-own");b.querySelector(".in").innerHTML='<textarea placeholder="Write your own…"></textarea><button class="pill sm" data-to="'+to+'" data-l="Write your own…">Continue  →</button>';b.querySelector("textarea").focus();return}
+ burst(e.clientX,e.clientY);
+ if(!b.dataset.nav){const ta=b.closest(".cell")&&b.closest(".cell").querySelector("textarea");
+  ans.push({q:N[cur].t,a:ta?"(own words) "+(ta.value.trim()||"left blank"):b.dataset.l.replace(/[→←]/g,"").trim()});save()}
+ go(b.dataset.to)});
+S.addEventListener("mousemove",e=>{const c=e.target.closest(".cell");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*9+"deg");c.style.setProperty("--rx",-((e.clientY-r.top)/r.height-.5)*7+"deg")});
+S.addEventListener("mouseout",e=>{const c=e.target.closest(".cell");if(c){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
+S.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("cell")){e.preventDefault();e.target.click()}});
+addEventListener("keydown",e=>{if(/TEXTAREA|INPUT/.test(e.target.tagName))return;
+ if(e.key==="Escape"||e.key==="Backspace")back();
+ else if(/^[1-7]$/.test(e.key)){const c=$('.cell[data-num="'+e.key+'"]');if(c)c.click()}
+ else if(e.key==="Enter"&&!e.target.classList.contains("cell")){const p=$("#stage .pill");if(p&&!e.target.closest("button"))p.click()}});
+$("#bk").onclick=back;$("#rs").onclick=restart;
+// glow + embers
+addEventListener("pointermove",e=>{document.documentElement.style.setProperty("--mx",e.clientX/innerWidth*100+"%");document.documentElement.style.setProperty("--my",e.clientY/innerHeight*100+"%")});
+const cv=$("#fx"),cx=cv.getContext("2d");let VW,VH,P=[],spr,dark=true;
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function sprite(){dark=document.documentElement.dataset.theme?document.documentElement.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+ spr=document.createElement("canvas");spr.width=spr.height=64;const c=spr.getContext("2d"),g=c.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,dark?"#fff":css("--cu2"));g.addColorStop(.25,css("--cu2"));g.addColorStop(.6,css("--cu")+"66");g.addColorStop(1,css("--cu")+"00");c.fillStyle=g;c.fillRect(0,0,64,64)}
+function size(){const d=Math.min(devicePixelRatio||1,2);VW=innerWidth;VH=innerHeight;cv.width=VW*d;cv.height=VH*d;cx.setTransform(d,0,0,d,0,0)}
+const ember=()=>({x:Math.random()*VW,y:Math.random()*VH,z:.35+Math.random()*.65,vy:-(.25+Math.random()*.6),f:.6+Math.random()*1.5,ph:Math.random()*6.3,s:.5+Math.random()*1.3});
+function burst(x,y){if(RM)return;for(let i=0;i<30;i++){const a=Math.random()*6.283,v=2+Math.random()*5;P.push({x:x,y:y,z:1,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1,f:0,ph:0,s:.5+Math.random()*.9,l:1})}}
+function loop(){cx.clearRect(0,0,VW,VH);cx.globalCompositeOperation=dark?"lighter":"source-over";const t=Date.now()/1000;
+ P=P.filter(p=>p.l===undefined||p.l>0);
+ for(const p of P){let a;
+  if(p.l!==undefined){p.x+=p.vx;p.y+=p.vy;p.vx*=.95;p.vy=p.vy*.95+.08;p.l-=.022;a=p.l}
+  else{p.y+=p.vy*p.z;p.x+=Math.sin(t*p.f+p.ph)*.35;if(p.y<-20){p.y=VH+20;p.x=Math.random()*VW}a=.3+.35*Math.sin(t*2+p.ph)}
+  cx.globalAlpha=Math.max(0,a)*(dark?1:.75);const z=p.s*p.z*16;cx.drawImage(spr,p.x-z/2,p.y-z/2,z,z)}
+ requestAnimationFrame(loop)}
+sprite();size();addEventListener("resize",size);matchMedia("(prefers-color-scheme: dark)").addEventListener("change",sprite);
+if(!RM)for(let i=0;i<70;i++)P.push(ember());
+requestAnimationFrame(loop);
+// responses drawer (owner only)
+function draw(){const L=$("#rl");L.textContent="";if(!rows.length){L.textContent="No responses yet.";return}
+ rows.forEach(r=>{const d=document.createElement("div");d.className="r";const s=document.createElement("small");s.textContent=new Date(r.at||0).toLocaleString();d.append(s,"\n"+(r.answers||[]).map(a=>a.q+" → "+a.a).join("\n")+(r.reply?"\n\nReply: "+r.reply:""));L.append(d)})}
+$("#ob").onclick=()=>{draw();$("#resp").classList.add("open")};$("#rc").onclick=()=>$("#resp").classList.remove("open");
+(async()=>{try{if(!window.claude||!claude.use)return;db=await claude.use("db");const u=await claude.use("user");
+ if(db)ref=db.doc("responses/"+sid);
+ if(db&&u&&await u.isOwner()){const b=$("#ob");b.hidden=false;b.textContent="Responses (0)";
+  db.collection("responses").onSnapshot(s=>{rows=s.docs.map(d=>Object.assign({id:d.id},typeof d.data==="function"?d.data():d.data)).sort((a,b)=>(b.at||0)-(a.at||0));b.textContent="Responses ("+rows.length+")";if($("#resp").classList.contains("open"))draw()},()=>{})}}catch(e){}})();
+render("start");
+</script></body></html>
